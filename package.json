@@ -4,7 +4,7 @@
   "description": "A JavaScript utility library",
   "main": "dist/feat-utils.js",
   "scripts": {
-    "build": "NODE_ENV=production webpack --progress"
+    "build": "NODE_ENV=development webpack --progress"
   },
   "repository": {
     "type": "git",

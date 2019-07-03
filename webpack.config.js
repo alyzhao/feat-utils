@@ -10,7 +10,8 @@ module.exports = {
       path: path.resolve(__dirname + '/dist'),
       filename: '[name].js',
       library: 'feat-utils',
-      libraryTarget: 'umd'
+      libraryTarget: 'umd',
+      globalObject: 'this'    // To make UMD build available on both browsers and Node.js, set output.globalObject option to 'this'.
   },
   resolve: {
     extensions: ['.js']
