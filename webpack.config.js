@@ -8,7 +8,9 @@ module.exports = {
   },
   output: {
       path: path.resolve(__dirname + '/dist'),
-      filename: '[name].js'
+      filename: '[name].js',
+      library: 'feat-utils',
+      libraryTarget: 'umd'
   },
   resolve: {
     extensions: ['.js']
