@@ -28,3 +28,36 @@ function debounce(func, wait, immediate) {
     return result
   }
 }
+
+/**
+ * 函数节流
+ *
+ */
+function throttle(func, wait, options = { leading: true, trailing: true }) {
+  let timer = null
+  let previous = 0
+
+  function invokeFunc(...rest) {
+    previous = options.leading === false ? 0 : new Date().getTime()
+    timer = null
+    func.apply(context, rest)
+  }
+
+  return function(...args) {
+    let now = new Date().getTime()
+    if (!previous && options.leading === false) {
+      previous = now
+    }
+    let remaining = wait - (now - previous)
+    if (remaining <= 0 || remaining > wait) {
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
+      }
+      previous = now
+      func.apply(this, args)
+    }
+  } else if (timer === null) {
+    timer = setTimeout(invokeFunc.bind(this, args), remaining)
+  }
+}
