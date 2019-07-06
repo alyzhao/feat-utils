@@ -31,33 +31,44 @@ function debounce(func, wait, immediate) {
 
 /**
  * 函数节流
- *
+ * @param {Function} func, 需要执行的函数
+ * @param {Number} wait 执行函数的间隔
+ * @param {Object} options, 选项: leading 如果为 false, 则禁用第一次执行, 也就是说用定时器执行
+ * @param {Object} options, 选项: trailing 如果为 false, 则禁用最后一次的回调, 也就是说用时间差来执行
+ * @param {Object} options, leading 和 trailing 默认为 true, 即第一次立即执行, 最后一次也会执行回调, 两者不能同时为 false  
  */
-function throttle(func, wait, options = { leading: true, trailing: true }) {
+function throttle(func, wait, { leading = true, trailing = true } = {}) {
   let timer = null
   let previous = 0
 
   function invokeFunc(...rest) {
-    previous = options.leading === false ? 0 : new Date().getTime()
+    previous = !leading ? 0 : new Date().getTime()
     timer = null
-    func.apply(context, rest)
+    func.apply(this, rest)
   }
 
   return function(...args) {
+
     let now = new Date().getTime()
-    if (!previous && options.leading === false) {
+    if (!previous && !leading) {
       previous = now
     }
     let remaining = wait - (now - previous)
     if (remaining <= 0 || remaining > wait) {
-      if (timer !== null) {
+      // 如果修改了系统时间
+      if (timer) {
         clearTimeout(timer)
         timer = null
       }
       previous = now
       func.apply(this, args)
+    } else if (timer === null && trailing) {
+      timer = setTimeout(invokeFunc.bind(this, ...args), remaining)
     }
-  } else if (timer === null) {
-    timer = setTimeout(invokeFunc.bind(this, args), remaining)
   }
+}
+
+export {
+  debounce,
+  throttle,
 }
