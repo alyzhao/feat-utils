@@ -1,6 +1,6 @@
 {
   "name": "feat-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A JavaScript utility library",
   "main": "dist/feat-utils.js",
   "scripts": {
